@@ -10,7 +10,7 @@ public class PlayerInventory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        holdingObject= true;
+        holdingObject= false;
     }
 
     // Update is called once per frame

@@ -15,10 +15,10 @@ public class OBJ_Pickup : MonoBehaviour
     public bool pipeActive;
     public bool torusActive;
 
-    PlayerInventory objectPickedUp;
+    public PlayerInventory playerInventory;
 
     // Start is called before the first frame update
-    void Start()
+   public void Start()
     {
         pickup_Canvas.SetActive(false);
         startCollectible.SetActive(true);
@@ -26,7 +26,7 @@ public class OBJ_Pickup : MonoBehaviour
         prismActive = false;
         pipeActive = false;
         torusActive = false;
-       // objectPickedUp.holdingObject = true;
+        
 
     }
 
@@ -45,6 +45,7 @@ public class OBJ_Pickup : MonoBehaviour
                 personCollectible.SetActive(true);
                 pickup_Canvas.SetActive(false);
                 canvasActive = false;
+                playerInventory.holdingObject = true;
 
 
                 if (startCollectible.tag == "Prism")
@@ -76,11 +77,14 @@ public class OBJ_Pickup : MonoBehaviour
 
         public void OnTriggerEnter(Collider other)
         {
-        if (other.tag == "Player")
+         if (other.tag == "Player")
          {
-
-            pickup_Canvas.SetActive(true);
-            canvasActive = true;
+            if(playerInventory.holdingObject == false)
+            {
+                pickup_Canvas.SetActive(true);
+                canvasActive = true;
+            }
+ 
 
          }
         }
@@ -91,6 +95,7 @@ public class OBJ_Pickup : MonoBehaviour
             {
                 pickup_Canvas.SetActive(false);
                 canvasActive = false;
+            
             }
         }
     
