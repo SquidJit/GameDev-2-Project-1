@@ -13,7 +13,8 @@ public class OBJ_Drop : MonoBehaviour
     public GameObject prismPerson;
     public GameObject pipePerson;
     public GameObject torusPerson;
-    public GameObject startCollectible;
+    public GameObject pedestal;
+
 
     public bool dropCanvasActive;
     public bool pickupCanvasActive;
@@ -33,13 +34,9 @@ public class OBJ_Drop : MonoBehaviour
     {
         drop_Canvas.SetActive(false);
         pickup_Canvas.SetActive(false);
-        pedestalEmpty = true;
         dropCanvasActive = false;
         pickupCanvasActive = false;
-       // prismItem.SetActive(false);
-      //  pipeItem.SetActive(false);
-      //  torusItem.SetActive(false);
-        StartCollectible();
+        StartPedestals();
     }
 
     // Update is called once per frame
@@ -54,7 +51,7 @@ public class OBJ_Drop : MonoBehaviour
         if (dropCanvasActive == true && playerInventory.holdingObject == true)
         {
             if (Input.GetKeyDown(KeyCode.E))
-            { 
+            {
                 if (m_prismActive.prismActive == true)
                 {
                     prismItem.SetActive(true);
@@ -64,45 +61,47 @@ public class OBJ_Drop : MonoBehaviour
                     dropCanvasActive = false;
                     playerInventory.holdingObject = false;
                     m_prismActive.prismActive = false;
-                    //prismOnPedestal = true;
-
-
+                    prismOnPedestal = true;
                 }
-                else
-
-                  if (m_pipeActive.pipeActive == true)
+               
+                
+                if (m_pipeActive.pipeActive == true)
                 {
-                    pipeItem.SetActive(true);
-                    pipePerson.SetActive(false);
-                    drop_Canvas.SetActive(false);
-                    pedestalEmpty = false;
-                    dropCanvasActive = false;
-                    playerInventory.holdingObject = false;
-                    m_pipeActive.pipeActive = false;
-                   // pipeOnPedestal = true;
+                   pipeItem.SetActive(true);
+                   pipePerson.SetActive(false);
+                   drop_Canvas.SetActive(false);
+                   pedestalEmpty = false;
+                   dropCanvasActive = false;
+                   playerInventory.holdingObject = false;
+                   m_pipeActive.pipeActive = false;
+                   pipeOnPedestal = true;
 
                 }
-                else
-
-                 if (m_torusActive.torusActive == true)
+                    
+                    
+                if (m_torusActive.torusActive == true)
                 {
 
-                    torusItem.SetActive(true);
-                    torusPerson.SetActive(false);
-                    drop_Canvas.SetActive(false);
-                    pedestalEmpty = false;
-                    dropCanvasActive = false;
-                    playerInventory.holdingObject = false;
-                    m_torusActive.torusActive = false;
-                    //torusOnPedestal = true;
-
+                  torusItem.SetActive(true);
+                  torusPerson.SetActive(false);
+                  drop_Canvas.SetActive(false);
+                  pedestalEmpty = false;
+                  dropCanvasActive = false;
+                  playerInventory.holdingObject = false;
+                  m_torusActive.torusActive = false;
+                  torusOnPedestal = true;
                 }
+                    
             }
         }
     }
+    
+    
+    
+
     void PickUpObject()
     {
-        if (pickup_Canvas == true && playerInventory.holdingObject == false)
+        if (pickupCanvasActive == true && playerInventory.holdingObject == false)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -119,22 +118,20 @@ public class OBJ_Drop : MonoBehaviour
                     prismOnPedestal = false;
 
                 }
-                else
 
                   if (pipeOnPedestal == true)
                 {
-                    m_pipeActive.prismActive = true;
+                    m_pipeActive.pipeActive = true;
                     pipeItem.SetActive(false);
                     pipePerson.SetActive(true);
                     pickup_Canvas.SetActive(false);
                     pickupCanvasActive = false;
                     playerInventory.holdingObject = true;
                     pedestalEmpty = true;
-                    prismOnPedestal = false;
+                    pipeOnPedestal = false;
 
                 }
-                else
-
+               
                  if (torusOnPedestal == true)
                 {
 
@@ -152,31 +149,49 @@ public class OBJ_Drop : MonoBehaviour
         }
     }
 
-    void StartCollectible()
+    void StartPedestals()
     {
-        if (startCollectible.tag == "Prism")
+        if (pedestal.tag == "Prism Pedestal")
         {
             prismItem.SetActive(true);
+            pipeItem.SetActive(false);
+            torusItem.SetActive(false);
             pedestalEmpty = false;
             prismOnPedestal = true;
         }
-        else
-            if (startCollectible.tag == "Pipe")
+       
+        
+        if (pedestal.tag == "Pipe Pedestal")
+            {
+                prismItem.SetActive(false);
+                pipeItem.SetActive(true);
+                torusItem.SetActive(false);
+                pedestalEmpty = false;
+                pipeOnPedestal = true;
+            }
+            
+            
+        if (pedestal.tag == "Torus Pedestal")
+            {       
+                prismItem.SetActive(false);
+                pipeItem.SetActive(false);
+                torusItem.SetActive(true);
+                pedestalEmpty = false;
+                torusOnPedestal = true;
+            }
+                
+                
+        if (pedestal.tag == "Pedestal")
         {
-            pipeItem.SetActive(true);
-            pedestalEmpty = false;
-            pipeOnPedestal = true;
-        }
-        else
-            if (startCollectible.tag == "Torus")
-        {
-            torusItem.SetActive(true);
-            pedestalEmpty = false;
-            torusOnPedestal = true;
+                prismItem.SetActive(false);
+                pipeItem.SetActive(false);
+                torusItem.SetActive(false);
+                pedestalEmpty = true;
         }
 
     }
 
+   
     public void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
@@ -185,24 +200,14 @@ public class OBJ_Drop : MonoBehaviour
             {
                 drop_Canvas.SetActive(true);
                 dropCanvasActive = true;
+                
             }
-            else
-                if (pedestalEmpty == true && playerInventory.holdingObject == false)
-            {
-                pickup_Canvas.SetActive(false);
-                drop_Canvas.SetActive(false);
-            }
-            else
-                if (pedestalEmpty == false && playerInventory.holdingObject == true)
-            {
-                pickup_Canvas.SetActive(false);
-                drop_Canvas.SetActive(false);
-            }
-            else
-                if(pedestalEmpty == false && playerInventory.holdingObject == false)
+           
+            if(pedestalEmpty == false && playerInventory.holdingObject == false)
             {
                 pickupCanvasActive = true;
                 pickup_Canvas.SetActive(true);
+                
             }
         }
     }

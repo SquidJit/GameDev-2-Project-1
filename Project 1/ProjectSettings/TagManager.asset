@@ -8,6 +8,10 @@ TagManager:
   - Prism
   - Pipe
   - Torus
+  - Pipe Pedestal
+  - Torus Pedestal
+  - Prism Pedestal
+  - Pedestal
   layers:
   - Default
   - TransparentFX
